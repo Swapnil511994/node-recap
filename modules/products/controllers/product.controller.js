@@ -31,8 +31,9 @@ export class ProductController {
       );
     } catch (error) {
       logger.error(
-        "Error while executing getProductById: ",
-        error?.message ? error.message : "Unknown Error"
+        "Error while executing getProductById: " + error?.message
+          ? error.message
+          : "Unknown Error"
       );
       responseFormatter(
         res,
@@ -69,14 +70,44 @@ export class ProductController {
       );
     } catch (error) {
       logger.error(
-        "Error while executing findProductByName()",
-        error?.message ? error.message : "Unknown Error"
+        "Error while executing findProductByName()" + error?.message
+          ? error.message
+          : "Unknown Error"
       );
 
       responseFormatter(
         res,
         500,
         createResponseJson(false, "Internal serrver error", null)
+      );
+    }
+  };
+
+  createProduct = async (req, res) => {
+    try {
+      const body = req.body;
+      const createdProduct = await this.productService.addProduct(body);
+      if (!createdProduct)
+        return responseFormatter(
+          res,
+          404,
+          createResponseJson(false, "Unable to add product")
+        );
+      responseFormatter(
+        res,
+        200,
+        createResponseJson(true, "Product added", createdProduct)
+      );
+    } catch (error) {
+      logger.error(
+        "Error while executing createProduct()" + error?.message
+          ? error.message
+          : "Unknown Error"
+      );
+      responseFormatter(
+        res,
+        500,
+        createResponseJson(false, "Internal server error")
       );
     }
   };

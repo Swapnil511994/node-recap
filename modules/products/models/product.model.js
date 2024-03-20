@@ -7,6 +7,7 @@ export default (sequelize) => {
       pid: {
         type: DataTypes.INTEGER,
         primaryKey: true,
+        autoIncrement: true
       },
       name: {
         type: DataTypes.STRING(100),
@@ -19,12 +20,12 @@ export default (sequelize) => {
       price: {
         type: DataTypes.DECIMAL(10, 2),
         allowNull: false,
-        default: 0,
+        defaultValue: 0,
       },
       active: {
         type: DataTypes.TINYINT(1),
         allowNull: false,
-        default: 1,
+        defaultValue: 1,
       },
       created_at: {
         type: DataTypes.DATE,

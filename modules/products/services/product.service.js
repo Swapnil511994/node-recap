@@ -18,8 +18,9 @@ export class ProductService {
       }
     } catch (error) {
       logger.error(
-        "Error while fetching product by Id: ",
-        error?.message ? error.message : "Unknown Error"
+        "Error while fetching product by Id: " + error?.message
+          ? error.message
+          : "Unknown Error"
       );
       return null;
     }
@@ -44,8 +45,24 @@ export class ProductService {
       }
     } catch (error) {
       logger.error(
-        "Error while fetching product by Name: ",
-        error?.message ? error.message : "Unknown Error"
+        "Error while fetching product by Name: " + error?.message
+          ? error.message
+          : "Unknown Error"
+      );
+      return null;
+    }
+  };
+
+  addProduct = async (productBody) => {
+    try {
+      const { Product } = db.models;
+      const addedProduct = await Product.create(productBody);
+      return addedProduct;
+    } catch (error) {
+      logger.error(
+        "Error while adding product: " + error?.message
+          ? error.message
+          : "Unknown Error"
       );
       return null;
     }
