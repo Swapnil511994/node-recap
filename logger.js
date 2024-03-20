@@ -8,15 +8,7 @@ const logFormat = printf(({ level, message, timestamp }) => {
 
 const logger = createLogger({
   format: combine(timestamp(), logFormat),
-  transports: [
-    new transports.Console(),
-    new transports.DailyRotateFile({
-      filename: "logs/application-%DATE%.log",
-      maxFiles: "14d",
-      maxSize: "20m",
-      datePattern: "YYYY-MM-DD",
-    }),
-  ],
+  transports: [new transports.Console()],
 });
 
 export default logger;

@@ -1,6 +1,6 @@
 import { Op } from "sequelize";
-import db from "../../../db.singleton";
-import logger from "../../../logger";
+import db from "../../../db.singleton.js";
+import logger from "../../../logger.js";
 
 export class ProductService {
   getProductById = async (productId) => {
