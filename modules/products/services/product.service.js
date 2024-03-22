@@ -67,4 +67,50 @@ export class ProductService {
       return null;
     }
   };
+
+  updateProduct = async (productBody) => {
+    try {
+      const { Product } = db.models;
+      const pid = productBody.pid;
+
+      delete productBody.pid;
+
+      const updatedProduct = await Product.update(productBody, {
+        where: {
+          pid: pid,
+        },
+      });
+
+      if (updatedProduct > 0) {
+        return await this.getProductById(pid);
+      } else return null;
+    } catch (error) {
+      logger.error(
+        "Error while updating product: " + error?.message
+          ? error.message
+          : "Unknown Error"
+      );
+      return null;
+    }
+  };
+
+  deleteProduct = async (pid) => {
+    try {
+      const { Product } = db.models;
+      const deletedStatus = await Product.destroy({
+        where: {
+          pid: pid,
+        },
+      });
+      if(deletedStatus>0) return true;
+      else return null;
+    } catch (error) {
+      logger.error(
+        "Unable to delete product by id: " + error?.message
+          ? error.message
+          : "Unknown Error"
+      );
+      return null;
+    }
+  };
 }

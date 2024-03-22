@@ -111,4 +111,55 @@ export class ProductController {
       );
     }
   };
+
+  updateProduct = async (req, res) => {
+    try {
+      const body = req.body;
+      const updatedProduct = await this.productService.updateProduct(body);
+      res.json(updatedProduct);
+    } catch (error) {
+      logger.error(
+        "Error while executing createProduct()" + error?.message
+          ? error.message
+          : "Unknown Error"
+      );
+      responseFormatter(
+        res,
+        500,
+        createResponseJson(false, "Internal server error")
+      );
+    }
+  };
+
+  deleteProduct = async (req, res) => {
+    try {
+      console.log("Delete Product: ", req.params);
+      const { productId } = req.params;
+      if (!productId) throw new Error("Invalid Product Id");
+      const deleteResponse = await this.productService.deleteProduct(productId);
+      if (!deleteResponse)
+        return responseFormatter(
+          res,
+          200,
+          createResponseJson(false, "Unable to delete product")
+        );
+
+      responseFormatter(
+        res,
+        200,
+        createResponseJson(true, "Product removed successfully")
+      );
+    } catch (error) {
+      logger.error(
+        "Error while executing deleteProduct()" + error?.message
+          ? error.message
+          : "Unknown Error"
+      );
+      responseFormatter(
+        res,
+        500,
+        createResponseJson(false, "Internal server error")
+      );
+    }
+  };
 }
